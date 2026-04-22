@@ -1,13 +1,9 @@
 package pe.edu.unitru.bienestar.patient.dto;
 
 import pe.edu.unitru.bienestar.patient.domain.PatientType;
-import pe.edu.unitru.bienestar.shared.domain.Gender;
+import pe.edu.unitru.bienestar.shared.dto.PersonCreateRequestDto;
 
 public record PatientCreateRequestDto(
-    String paternalSurname,
-    String maternalSurname,
-    String names,
-    String dni,
-    Gender gender,
+    PersonCreateRequestDto person,
     PatientType patientType
 ) {}
