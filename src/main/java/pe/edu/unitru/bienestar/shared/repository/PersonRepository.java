@@ -7,4 +7,8 @@ import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
 
 @Repository
 public interface PersonRepository extends JpaRepository<PersonEntity, Long> {
+
+    boolean existsByDni(String dni);
+
+    PersonEntity findByDni(String dni);
 }

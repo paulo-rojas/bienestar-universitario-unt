@@ -31,6 +31,11 @@ public class PersonServiceImpl implements PersonService {
     }
 
     @Override
+    public PersonEntity findByDni(String dni) {
+        return personRepository.findByDni(dni);
+    }
+
+    @Override
     public void deleteById(Long id) {
         personRepository.deleteById(id);
     }
@@ -38,6 +43,11 @@ public class PersonServiceImpl implements PersonService {
     @Override
     public boolean existsById(Long id) {
         return personRepository.existsById(id);
+    }
+
+    @Override
+    public boolean existsByDni(String dni) {
+        return personRepository.existsByDni(dni);
     }
 
 }
