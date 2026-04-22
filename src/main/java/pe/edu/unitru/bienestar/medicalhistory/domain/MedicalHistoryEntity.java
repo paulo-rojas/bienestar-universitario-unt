@@ -1,4 +1,4 @@
-package pe.edu.unitru.bienestar.medicalhistory.controller;
+package pe.edu.unitru.bienestar.medicalhistory.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
