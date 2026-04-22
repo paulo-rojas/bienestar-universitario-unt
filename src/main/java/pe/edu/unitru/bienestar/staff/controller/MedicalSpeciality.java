@@ -1,4 +1,20 @@
 package pe.edu.unitru.bienestar.staff.controller;
 
 public enum MedicalSpeciality {
+    GENERAL_PRACTICE,
+    CARDIOLOGY,
+    DERMATOLOGY,
+    ENDOCRINOLOGY,
+    GASTROENTEROLOGY,
+    GYNECOLOGY,
+    NEUROLOGY,
+    ONCOLOGY,
+    OPHTHALMOLOGY,
+    ORTHOPEDICS,
+    PEDIATRICS,
+    PSYCHIATRY,
+    PULMONOLOGY,
+    RADIOLOGY,
+    TRAUMATOLOGY,
+    UROLOGY
 }
