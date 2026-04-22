@@ -1,7 +1,8 @@
 package pe.edu.unitru.bienestar.address.service;
 
-import pe.edu.unitru.bienestar.address.dto.AddressCreateRequestDto;
-import pe.edu.unitru.bienestar.address.dto.AddressDto;
+import pe.edu.unitru.bienestar.address.dto.*;
+
+import java.util.List;
 
 public interface AddressService {
 
@@ -12,5 +13,11 @@ public interface AddressService {
     AddressDto update(Long personId, AddressCreateRequestDto dto);
 
     void delete(Long personId);
+
+    List<DepartmentDto> getDepartments();
+
+    List<ProvinceDto> getProvincesByDepartamentId(Long departmentId);
+
+    List<DistrictDto> getDistrictsByProvinceId(Long provinceId);
 
 }

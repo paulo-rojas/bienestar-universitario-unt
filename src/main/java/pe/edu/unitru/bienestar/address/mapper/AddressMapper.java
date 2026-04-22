@@ -3,9 +3,10 @@ package pe.edu.unitru.bienestar.address.mapper;
 import org.springframework.stereotype.Component;
 
 import pe.edu.unitru.bienestar.address.domain.AddressEntity;
+import pe.edu.unitru.bienestar.address.domain.DepartmentEntity;
 import pe.edu.unitru.bienestar.address.domain.DistrictEntity;
-import pe.edu.unitru.bienestar.address.dto.AddressCreateRequestDto;
-import pe.edu.unitru.bienestar.address.dto.AddressDto;
+import pe.edu.unitru.bienestar.address.domain.ProvinceEntity;
+import pe.edu.unitru.bienestar.address.dto.*;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
 
 @Component
@@ -45,5 +46,17 @@ public class AddressMapper {
         entity.setProvince(district.getProvince());
         entity.setDepartment(district.getProvince().getDepartment());
         return entity;
+    }
+
+    public static DepartmentDto deparmentToDto(DepartmentEntity entity){
+        return new DepartmentDto(entity.getId(), entity.getName());
+    }
+
+    public static ProvinceDto provinceToDto(ProvinceEntity entity){
+        return new ProvinceDto(entity.getId(), entity.getName(), entity.getDepartment().getId() );
+    }
+
+    public static DistrictDto districtToDto(DistrictEntity entity){
+        return new DistrictDto(entity.getId(), entity.getName(), entity.getProvince().getId(), entity.getDepartment().getId());
     }
 }

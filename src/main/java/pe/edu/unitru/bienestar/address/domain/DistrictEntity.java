@@ -27,4 +27,8 @@ public class DistrictEntity {
     @ManyToOne
     @JoinColumn(name = "province_id", nullable = false)
     private ProvinceEntity province;
+
+    @ManyToOne
+    @JoinColumn(name = "department_id", nullable = false)
+    private DepartmentEntity department;
 }
