@@ -5,7 +5,9 @@ import org.springframework.stereotype.Component;
 import pe.edu.unitru.bienestar.patient.domain.PatientEntity;
 import pe.edu.unitru.bienestar.patient.dto.PatientCreateRequestDto;
 import pe.edu.unitru.bienestar.patient.dto.PatientDto;
+import pe.edu.unitru.bienestar.shared.domain.Gender;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
+import pe.edu.unitru.bienestar.shared.dto.PersonCreateRequestDto;
 
 @Component
 public class PatientMapper {
@@ -23,13 +25,15 @@ public class PatientMapper {
         );
     }
 
-    public PersonEntity toPerson(PatientCreateRequestDto dto) {
+    public PersonEntity toPerson(PersonCreateRequestDto dto) {
         PersonEntity person = new PersonEntity();
         person.setPaternalSurname(dto.paternalSurname());
         person.setMaternalSurname(dto.maternalSurname());
         person.setNames(dto.names());
         person.setDni(dto.dni());
-        person.setGender(dto.gender());
+        person.setBirthDate(dto.birthDate());
+        person.setPhone(dto.phone());
+        person.setGender(Gender.valueOf(dto.gender()));
         return person;
     }
 

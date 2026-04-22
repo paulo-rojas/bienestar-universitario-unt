@@ -7,6 +7,7 @@ import pe.edu.unitru.bienestar.patient.dto.PatientDto;
 import pe.edu.unitru.bienestar.patient.dto.PatientCreateRequestDto;
 import pe.edu.unitru.bienestar.patient.mapper.PatientMapper;
 import pe.edu.unitru.bienestar.patient.repository.PatientRepository;
+import pe.edu.unitru.bienestar.shared.domain.Gender;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
 import pe.edu.unitru.bienestar.shared.service.PersonService;
 
@@ -34,7 +35,7 @@ public class PatientServiceImpl implements PatientService {
 
     @Override
     public PatientDto createPatient(PatientCreateRequestDto dto) {
-        PersonEntity person = personService.create(patientMapper.toPerson(dto));
+        PersonEntity person = personService.create(patientMapper.toPerson(dto.person()));
         PatientEntity patient = patientRepository.save(patientMapper.toEntity(dto, person));
         return patientMapper.toDto(patient);
     }
@@ -43,11 +44,13 @@ public class PatientServiceImpl implements PatientService {
     public PatientDto updatePatient(Long id, PatientCreateRequestDto dto) {
         return patientRepository.findById(id).map(existing -> {
             PersonEntity person = existing.getPerson();
-            person.setPaternalSurname(dto.paternalSurname());
-            person.setMaternalSurname(dto.maternalSurname());
-            person.setNames(dto.names());
-            person.setDni(dto.dni());
-            person.setGender(dto.gender());
+            person.setPaternalSurname(dto.person().paternalSurname());
+            person.setMaternalSurname(dto.person().maternalSurname());
+            person.setNames(dto.person().names());
+            person.setDni(dto.person().dni());
+            person.setBirthDate(dto.person().birthDate());
+            person.setPhone(dto.person().phone());
+            person.setGender(Gender.valueOf(dto.person().gender()));
             personService.update(person.getId(), person);
             existing.setPatientType(dto.patientType());
             return patientMapper.toDto(patientRepository.save(existing));

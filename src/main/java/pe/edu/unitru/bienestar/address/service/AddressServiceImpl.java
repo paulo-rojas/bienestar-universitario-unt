@@ -4,13 +4,16 @@ import org.springframework.stereotype.Service;
 
 import pe.edu.unitru.bienestar.address.domain.AddressEntity;
 import pe.edu.unitru.bienestar.address.domain.DistrictEntity;
-import pe.edu.unitru.bienestar.address.dto.AddressCreateRequestDto;
-import pe.edu.unitru.bienestar.address.dto.AddressDto;
+import pe.edu.unitru.bienestar.address.dto.*;
 import pe.edu.unitru.bienestar.address.mapper.AddressMapper;
 import pe.edu.unitru.bienestar.address.repository.AddressRepository;
+import pe.edu.unitru.bienestar.address.repository.DepartmentRepository;
 import pe.edu.unitru.bienestar.address.repository.DistrictRepository;
+import pe.edu.unitru.bienestar.address.repository.ProvinceRepository;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
 import pe.edu.unitru.bienestar.shared.service.PersonService;
+
+import java.util.List;
 
 @Service
 public class AddressServiceImpl implements AddressService {
@@ -19,15 +22,19 @@ public class AddressServiceImpl implements AddressService {
     private final DistrictRepository districtRepository;
     private final PersonService personService;
     private final AddressMapper addressMapper;
+    private final DepartmentRepository departmentRepository;
+    private final ProvinceRepository provinceRepository;
 
     public AddressServiceImpl(AddressRepository addressRepository,
                               DistrictRepository districtRepository,
                               PersonService personService,
-                              AddressMapper addressMapper) {
+                              AddressMapper addressMapper, DepartmentRepository departmentRepository, ProvinceRepository provinceRepository) {
         this.addressRepository = addressRepository;
         this.districtRepository = districtRepository;
         this.personService = personService;
         this.addressMapper = addressMapper;
+        this.departmentRepository = departmentRepository;
+        this.provinceRepository = provinceRepository;
     }
 
     @Override
@@ -75,6 +82,21 @@ public class AddressServiceImpl implements AddressService {
                 .filter(a -> a.getPerson().getId().equals(personId))
                 .findFirst()
                 .ifPresent(a -> addressRepository.deleteById(a.getId()));
+    }
+
+    @Override
+    public List<DepartmentDto> getDepartments() {
+        return departmentRepository.findAll().stream().map(AddressMapper::deparmentToDto).toList();
+    }
+
+    @Override
+    public List<ProvinceDto> getProvincesByDepartamentId(Long departmentId) {
+        return provinceRepository.getAllByDepartmentId(departmentId).stream().map(AddressMapper::provinceToDto).toList();
+    }
+
+    @Override
+    public List<DistrictDto> getDistrictsByProvinceId(Long provinceId) {
+        return districtRepository.getAllByProvinceId(provinceId).stream().map(AddressMapper::districtToDto).toList();
     }
 
 }
