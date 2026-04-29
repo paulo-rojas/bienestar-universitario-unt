@@ -90,13 +90,34 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<ProvinceDto> getProvincesByDepartamentId(Long departmentId) {
-        return provinceRepository.getAllByDepartmentId(departmentId).stream().map(AddressMapper::provinceToDto).toList();
+    public DepartmentDto getDepartmentById(Long departmentId) {
+        return departmentRepository.findById(departmentId)
+                .map(AddressMapper::deparmentToDto)
+                .orElseThrow(() -> new RuntimeException("Department with id = " + departmentId + " not found"));
     }
 
     @Override
-    public List<DistrictDto> getDistrictsByProvinceId(Long provinceId) {
-        return districtRepository.getAllByProvinceId(provinceId).stream().map(AddressMapper::districtToDto).toList();
+    public List<ProvinceSummaryDto> getProvincesByDepartamentId(Long departmentId) {
+        return provinceRepository.getAllByDepartmentId(departmentId).stream().map(AddressMapper::provinceToSummaryDto).toList();
+    }
+
+    @Override
+    public ProvinceDetailDto getProvinceById(Long provinceId) {
+        return provinceRepository.findById(provinceId)
+                .map(AddressMapper::provinceToDetailDto)
+                .orElseThrow(() -> new RuntimeException("Province with id = " + provinceId + "not found"));
+    }
+
+    @Override
+    public List<DistrictSummaryDto> getDistrictsByProvinceId(Long provinceId) {
+        return districtRepository.getAllByProvinceId(provinceId).stream().map(AddressMapper::districtToSummaryDto).toList();
+    }
+
+    @Override
+    public DistrictDetailDto getDistrictById(Long districtId) {
+        return districtRepository.findById(districtId)
+                .map(AddressMapper::districtToDetailDto)
+                .orElseThrow(() -> new RuntimeException("Distrit with id = " + districtId + "not found"));
     }
 
 }
