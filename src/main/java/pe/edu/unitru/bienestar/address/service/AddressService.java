@@ -16,8 +16,14 @@ public interface AddressService {
 
     List<DepartmentDto> getDepartments();
 
-    List<ProvinceDto> getProvincesByDepartamentId(Long departmentId);
+    DepartmentDto getDepartmentById(Long departmentId);
 
-    List<DistrictDto> getDistrictsByProvinceId(Long provinceId);
+    List<ProvinceSummaryDto> getProvincesByDepartamentId(Long departmentId);
+
+    ProvinceDetailDto getProvinceById(Long provinceId);
+
+    List<DistrictSummaryDto> getDistrictsByProvinceId(Long provinceId);
+
+    DistrictDetailDto getDistrictById(Long districtId);
 
 }

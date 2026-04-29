@@ -52,11 +52,25 @@ public class AddressMapper {
         return new DepartmentDto(entity.getId(), entity.getName());
     }
 
-    public static ProvinceDto provinceToDto(ProvinceEntity entity){
-        return new ProvinceDto(entity.getId(), entity.getName(), entity.getDepartment().getId() );
+    public static ProvinceDetailDto provinceToDetailDto(ProvinceEntity entity){
+        return new ProvinceDetailDto(entity.getId(), entity.getName(), entity.getDepartment().getId(), entity.getDepartment().getName());
     }
 
-    public static DistrictDto districtToDto(DistrictEntity entity){
-        return new DistrictDto(entity.getId(), entity.getName(), entity.getProvince().getId(), entity.getDepartment().getId());
+    public static ProvinceSummaryDto provinceToSummaryDto(ProvinceEntity entity){
+        return new ProvinceSummaryDto(entity.getId(), entity.getName());
+    }
+
+    public static DistrictDetailDto districtToDetailDto(DistrictEntity entity){
+        return new DistrictDetailDto(
+                entity.getId(),
+                entity.getName(),
+                entity.getProvince().getId(),
+                entity.getProvince().getName(),
+                entity.getDepartment().getId(),
+                entity.getDepartment().getName());
+    }
+
+    public static DistrictSummaryDto districtToSummaryDto(DistrictEntity entity){
+        return new DistrictSummaryDto(entity.getId(), entity.getName());
     }
 }
