@@ -6,7 +6,6 @@ import pe.edu.unitru.bienestar.address.domain.AddressEntity;
 import pe.edu.unitru.bienestar.address.domain.DepartmentEntity;
 import pe.edu.unitru.bienestar.address.domain.DistrictEntity;
 import pe.edu.unitru.bienestar.address.domain.ProvinceEntity;
-import pe.edu.unitru.bienestar.address.dto.*;
 import pe.edu.unitru.bienestar.address.dto.in.AddressCreateRequestDto;
 import pe.edu.unitru.bienestar.address.dto.out.AddressResponseDto;
 import pe.edu.unitru.bienestar.address.dto.out.DepartmentResponseDto;
