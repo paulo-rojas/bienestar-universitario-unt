@@ -1,4 +1,4 @@
-package pe.edu.unitru.bienestar.staff.controller;
+package pe.edu.unitru.bienestar.staff.domain;
 
 
 import jakarta.persistence.*;

@@ -2,7 +2,7 @@ package pe.edu.unitru.bienestar.consultation.triage.domain;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import pe.edu.unitru.bienestar.staff.controller.StaffEntity;
+import pe.edu.unitru.bienestar.staff.domain.StaffEntity;
 
 @Table(name = "triages")
 @Entity
