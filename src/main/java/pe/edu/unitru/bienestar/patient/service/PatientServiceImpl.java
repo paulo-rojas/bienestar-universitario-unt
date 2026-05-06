@@ -2,15 +2,19 @@ package pe.edu.unitru.bienestar.patient.service;
 
 import org.springframework.stereotype.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import pe.edu.unitru.bienestar.patient.domain.PatientEntity;
 import pe.edu.unitru.bienestar.patient.dto.PatientDto;
-import pe.edu.unitru.bienestar.patient.dto.PatientCreateRequestDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientCreateRequestDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientUpdateRequestDto;
 import pe.edu.unitru.bienestar.patient.mapper.PatientMapper;
 import pe.edu.unitru.bienestar.patient.repository.PatientRepository;
-import pe.edu.unitru.bienestar.shared.domain.Gender;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
+import pe.edu.unitru.bienestar.shared.exception.PatientNotFoundException;
+import pe.edu.unitru.bienestar.shared.exception.PatientDuplicateDniException;
 import pe.edu.unitru.bienestar.shared.service.PersonService;
 
+@Slf4j
 @Service
 public class PatientServiceImpl implements PatientService {
 
@@ -30,40 +34,54 @@ public class PatientServiceImpl implements PatientService {
     public PatientDto getPatientById(Long id) {
         return patientRepository.findById(id)
                 .map(patientMapper::toDto)
-                .orElse(null);
+                .orElseThrow(() -> new PatientNotFoundException(id));
     }
 
     @Override
     public PatientDto createPatient(PatientCreateRequestDto dto) {
-        PersonEntity person = personService.create(patientMapper.toPerson(dto.person()));
+        if (patientRepository.existsByPersonDni(dto.patientInfo().dni())) {
+            throw new PatientDuplicateDniException(dto.patientInfo().dni());
+        }
+        PersonEntity person = personService.findByDni(dto.patientInfo().dni());
+        if (person == null) {
+            person = personService.create(patientMapper.toPerson(dto.patientInfo()));
+        }
         PatientEntity patient = patientRepository.save(patientMapper.toEntity(dto, person));
+        log.info("Patient created with ID: {}", patient.getId());
         return patientMapper.toDto(patient);
     }
 
     @Override
-    public PatientDto updatePatient(Long id, PatientCreateRequestDto dto) {
-        return patientRepository.findById(id).map(existing -> {
-            PersonEntity person = existing.getPerson();
-            person.setPaternalSurname(dto.person().paternalSurname());
-            person.setMaternalSurname(dto.person().maternalSurname());
-            person.setNames(dto.person().names());
-            person.setDni(dto.person().dni());
-            person.setBirthDate(dto.person().birthDate());
-            person.setPhone(dto.person().phone());
-            person.setGender(Gender.valueOf(dto.person().gender()));
-            personService.update(person.getId(), person);
-            existing.setPatientType(dto.patientType());
-            return patientMapper.toDto(patientRepository.save(existing));
-        }).orElse(null);
+    public PatientDto updatePatient(Long id, PatientUpdateRequestDto dto) {
+        PatientEntity existing = patientRepository.findById(id)
+                .orElseThrow(() -> new PatientNotFoundException(id));
+
+        PersonEntity person = existing.getPerson();
+        person.setPaternalSurname(dto.patientInfo().paternalSurname());
+        person.setMaternalSurname(dto.patientInfo().maternalSurname());
+        person.setNames(dto.patientInfo().names());
+        person.setDni(dto.patientInfo().dni());
+        person.setBirthDate(dto.patientInfo().birthDate());
+        person.setPhone(dto.patientInfo().phone());
+        person.setGender(dto.patientInfo().gender());
+        personService.update(person.getId(), person);
+        
+        existing.setPatientType(dto.patientType());
+        
+        return patientMapper.toDto(patientRepository.save(existing));
     }
 
     @Override
-    public boolean deletePatient(Long id) {
+    public boolean deletePatientLogically(Long id) {
         if (patientRepository.existsById(id)) {
-            patientRepository.deleteById(id);
+            PatientEntity patient = patientRepository.findById(id).orElse(null);
+            if (patient != null) {
+                patient.setActive(false);
+                patientRepository.save(patient);
+                log.info("Patient marked as inactive with ID: {}", id);
+            }
             return true;
         }
-        return false;
+        throw new PatientNotFoundException(id);
     }
-
 }
