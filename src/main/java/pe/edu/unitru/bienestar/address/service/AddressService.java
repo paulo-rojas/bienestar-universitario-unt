@@ -1,29 +1,36 @@
 package pe.edu.unitru.bienestar.address.service;
 
 import pe.edu.unitru.bienestar.address.dto.*;
+import pe.edu.unitru.bienestar.address.dto.in.AddressCreateRequestDto;
+import pe.edu.unitru.bienestar.address.dto.out.AddressResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DepartmentResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DistrictDetailResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DistrictSummaryResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.ProvinceDetailResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.ProvinceSummaryResponseDto;
 
 import java.util.List;
 
 public interface AddressService {
 
-    AddressDto getByPersonId(Long personId);
+    AddressResponseDto getByPersonId(Long personId);
 
-    AddressDto create(AddressCreateRequestDto dto);
+    AddressResponseDto create(AddressCreateRequestDto dto);
 
-    AddressDto update(Long personId, AddressCreateRequestDto dto);
+    AddressResponseDto update(Long personId, AddressCreateRequestDto dto);
 
     void delete(Long personId);
 
-    List<DepartmentDto> getDepartments();
+    List<DepartmentResponseDto> getDepartments();
 
-    DepartmentDto getDepartmentById(Long departmentId);
+    DepartmentResponseDto getDepartmentById(Long departmentId);
 
-    List<ProvinceSummaryDto> getProvincesByDepartamentId(Long departmentId);
+    List<ProvinceSummaryResponseDto> getProvincesByDepartamentId(Long departmentId);
 
-    ProvinceDetailDto getProvinceById(Long provinceId);
+    ProvinceDetailResponseDto getProvinceById(Long provinceId);
 
-    List<DistrictSummaryDto> getDistrictsByProvinceId(Long provinceId);
+    List<DistrictSummaryResponseDto> getDistrictsByProvinceId(Long provinceId);
 
-    DistrictDetailDto getDistrictById(Long districtId);
+    DistrictDetailResponseDto getDistrictById(Long districtId);
 
 }

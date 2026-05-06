@@ -5,6 +5,13 @@ import org.springframework.stereotype.Service;
 import pe.edu.unitru.bienestar.address.domain.AddressEntity;
 import pe.edu.unitru.bienestar.address.domain.DistrictEntity;
 import pe.edu.unitru.bienestar.address.dto.*;
+import pe.edu.unitru.bienestar.address.dto.in.AddressCreateRequestDto;
+import pe.edu.unitru.bienestar.address.dto.out.AddressResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DepartmentResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DistrictDetailResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DistrictSummaryResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.ProvinceDetailResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.ProvinceSummaryResponseDto;
 import pe.edu.unitru.bienestar.address.mapper.AddressMapper;
 import pe.edu.unitru.bienestar.address.repository.AddressRepository;
 import pe.edu.unitru.bienestar.address.repository.DepartmentRepository;
@@ -38,7 +45,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto getByPersonId(Long personId) {
+    public AddressResponseDto getByPersonId(Long personId) {
         return addressRepository.findAll().stream()
                 .filter(a -> a.getPerson().getId().equals(personId))
                 .findFirst()
@@ -47,7 +54,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto create(AddressCreateRequestDto dto) {
+    public AddressResponseDto create(AddressCreateRequestDto dto) {
         PersonEntity person = personService.findById(dto.personId());
         DistrictEntity district = districtRepository.findById(dto.districtId()).orElse(null);
         AddressEntity entity = addressMapper.toEntity(dto, person, district);
@@ -55,7 +62,7 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public AddressDto update(Long personId, AddressCreateRequestDto dto) {
+    public AddressResponseDto update(Long personId, AddressCreateRequestDto dto) {
         return addressRepository.findAll().stream()
                 .filter(a -> a.getPerson().getId().equals(personId))
                 .findFirst()
@@ -85,36 +92,36 @@ public class AddressServiceImpl implements AddressService {
     }
 
     @Override
-    public List<DepartmentDto> getDepartments() {
+    public List<DepartmentResponseDto> getDepartments() {
         return departmentRepository.findAll().stream().map(AddressMapper::deparmentToDto).toList();
     }
 
     @Override
-    public DepartmentDto getDepartmentById(Long departmentId) {
+    public DepartmentResponseDto getDepartmentById(Long departmentId) {
         return departmentRepository.findById(departmentId)
                 .map(AddressMapper::deparmentToDto)
                 .orElseThrow(() -> new RuntimeException("Department with id = " + departmentId + " not found"));
     }
 
     @Override
-    public List<ProvinceSummaryDto> getProvincesByDepartamentId(Long departmentId) {
+    public List<ProvinceSummaryResponseDto> getProvincesByDepartamentId(Long departmentId) {
         return provinceRepository.getAllByDepartmentId(departmentId).stream().map(AddressMapper::provinceToSummaryDto).toList();
     }
 
     @Override
-    public ProvinceDetailDto getProvinceById(Long provinceId) {
+    public ProvinceDetailResponseDto getProvinceById(Long provinceId) {
         return provinceRepository.findById(provinceId)
                 .map(AddressMapper::provinceToDetailDto)
                 .orElseThrow(() -> new RuntimeException("Province with id = " + provinceId + "not found"));
     }
 
     @Override
-    public List<DistrictSummaryDto> getDistrictsByProvinceId(Long provinceId) {
+    public List<DistrictSummaryResponseDto> getDistrictsByProvinceId(Long provinceId) {
         return districtRepository.getAllByProvinceId(provinceId).stream().map(AddressMapper::districtToSummaryDto).toList();
     }
 
     @Override
-    public DistrictDetailDto getDistrictById(Long districtId) {
+    public DistrictDetailResponseDto getDistrictById(Long districtId) {
         return districtRepository.findById(districtId)
                 .map(AddressMapper::districtToDetailDto)
                 .orElseThrow(() -> new RuntimeException("Distrit with id = " + districtId + "not found"));

@@ -3,7 +3,7 @@ package pe.edu.unitru.bienestar.consultation.domain;
 import jakarta.persistence.*;
 import lombok.Data;
 import pe.edu.unitru.bienestar.consultation.triage.domain.TriageEntity;
-import pe.edu.unitru.bienestar.staff.controller.StaffEntity;
+import pe.edu.unitru.bienestar.staff.domain.StaffEntity;
 
 import java.time.LocalDate;
 

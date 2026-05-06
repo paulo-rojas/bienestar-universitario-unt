@@ -1,6 +1,6 @@
-package pe.edu.unitru.bienestar.address.dto;
+package pe.edu.unitru.bienestar.address.dto.out;
 
-public record DistrictDetailDto(
+public record DistrictDetailResponseDto(
         Long id,
         String name,
         Long provinceId,

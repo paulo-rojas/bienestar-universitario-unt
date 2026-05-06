@@ -8,4 +8,5 @@ import pe.edu.unitru.bienestar.patient.domain.PatientEntity;
 @Repository
 public interface PatientRepository extends JpaRepository<PatientEntity, Long> {
 
+    boolean existsByPersonDni(String dni);
 }

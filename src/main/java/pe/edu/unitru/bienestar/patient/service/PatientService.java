@@ -1,7 +1,8 @@
 package pe.edu.unitru.bienestar.patient.service;
 
 import pe.edu.unitru.bienestar.patient.dto.PatientDto;
-import pe.edu.unitru.bienestar.patient.dto.PatientCreateRequestDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientCreateRequestDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientUpdateRequestDto;
 
 public interface PatientService {
 
@@ -9,8 +10,8 @@ public interface PatientService {
 
     PatientDto createPatient(PatientCreateRequestDto dto);
 
-    PatientDto updatePatient(Long id, PatientCreateRequestDto dto);
+    PatientDto updatePatient(Long id, PatientUpdateRequestDto dto);
 
-    boolean deletePatient(Long id);
+    boolean deletePatientLogically(Long id);
 
 }

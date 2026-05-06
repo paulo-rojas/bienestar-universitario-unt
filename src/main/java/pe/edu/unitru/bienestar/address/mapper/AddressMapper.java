@@ -6,14 +6,20 @@ import pe.edu.unitru.bienestar.address.domain.AddressEntity;
 import pe.edu.unitru.bienestar.address.domain.DepartmentEntity;
 import pe.edu.unitru.bienestar.address.domain.DistrictEntity;
 import pe.edu.unitru.bienestar.address.domain.ProvinceEntity;
-import pe.edu.unitru.bienestar.address.dto.*;
+import pe.edu.unitru.bienestar.address.dto.in.AddressCreateRequestDto;
+import pe.edu.unitru.bienestar.address.dto.out.AddressResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DepartmentResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DistrictDetailResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.DistrictSummaryResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.ProvinceDetailResponseDto;
+import pe.edu.unitru.bienestar.address.dto.out.ProvinceSummaryResponseDto;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
 
 @Component
 public class AddressMapper {
 
-    public AddressDto toDto(AddressEntity entity) {
-        return new AddressDto(
+    public AddressResponseDto toDto(AddressEntity entity) {
+        return new AddressResponseDto(
             entity.getId(),
             entity.getPerson().getId(),
             entity.getStreetType(),
@@ -48,20 +54,20 @@ public class AddressMapper {
         return entity;
     }
 
-    public static DepartmentDto deparmentToDto(DepartmentEntity entity){
-        return new DepartmentDto(entity.getId(), entity.getName());
+    public static DepartmentResponseDto deparmentToDto(DepartmentEntity entity){
+        return new DepartmentResponseDto(entity.getId(), entity.getName());
     }
 
-    public static ProvinceDetailDto provinceToDetailDto(ProvinceEntity entity){
-        return new ProvinceDetailDto(entity.getId(), entity.getName(), entity.getDepartment().getId(), entity.getDepartment().getName());
+    public static ProvinceDetailResponseDto provinceToDetailDto(ProvinceEntity entity){
+        return new ProvinceDetailResponseDto(entity.getId(), entity.getName(), entity.getDepartment().getId(), entity.getDepartment().getName());
     }
 
-    public static ProvinceSummaryDto provinceToSummaryDto(ProvinceEntity entity){
-        return new ProvinceSummaryDto(entity.getId(), entity.getName());
+    public static ProvinceSummaryResponseDto provinceToSummaryDto(ProvinceEntity entity){
+        return new ProvinceSummaryResponseDto(entity.getId(), entity.getName());
     }
 
-    public static DistrictDetailDto districtToDetailDto(DistrictEntity entity){
-        return new DistrictDetailDto(
+    public static DistrictDetailResponseDto districtToDetailDto(DistrictEntity entity){
+        return new DistrictDetailResponseDto(
                 entity.getId(),
                 entity.getName(),
                 entity.getProvince().getId(),
@@ -70,7 +76,7 @@ public class AddressMapper {
                 entity.getDepartment().getName());
     }
 
-    public static DistrictSummaryDto districtToSummaryDto(DistrictEntity entity){
-        return new DistrictSummaryDto(entity.getId(), entity.getName());
+    public static DistrictSummaryResponseDto districtToSummaryDto(DistrictEntity entity){
+        return new DistrictSummaryResponseDto(entity.getId(), entity.getName());
     }
 }

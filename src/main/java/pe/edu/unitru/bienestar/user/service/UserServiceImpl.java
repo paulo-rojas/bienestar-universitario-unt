@@ -57,7 +57,7 @@ public class UserServiceImpl implements UserService {
             person.setDni(dto.person().dni());
             person.setBirthDate(dto.person().birthDate());
             person.setPhone(dto.person().phone());
-            person.setGender(Gender.valueOf(dto.person().gender()));
+            person.setGender(dto.person().gender());
             personService.update(person.getId(), person);
             existing.setUsername(dto.username());
             existing.setPassword(dto.password());

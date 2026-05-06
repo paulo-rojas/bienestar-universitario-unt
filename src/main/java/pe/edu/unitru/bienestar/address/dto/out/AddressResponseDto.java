@@ -1,6 +1,6 @@
-package pe.edu.unitru.bienestar.address.dto;
+package pe.edu.unitru.bienestar.address.dto.out;
 
-public record AddressDto(
+public record AddressResponseDto(
     Long id,
     Long personId,
     String streetType,

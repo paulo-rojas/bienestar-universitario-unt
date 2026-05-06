@@ -50,4 +50,6 @@ public class PatientEntity {
     @Column(length = 100)
     private String contactRelationship;
 
+    private Boolean active = true;
+
 }

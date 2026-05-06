@@ -3,8 +3,8 @@ package pe.edu.unitru.bienestar.patient.mapper;
 import org.springframework.stereotype.Component;
 
 import pe.edu.unitru.bienestar.patient.domain.PatientEntity;
-import pe.edu.unitru.bienestar.patient.dto.PatientCreateRequestDto;
 import pe.edu.unitru.bienestar.patient.dto.PatientDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientCreateRequestDto;
 import pe.edu.unitru.bienestar.shared.domain.Gender;
 import pe.edu.unitru.bienestar.shared.domain.PersonEntity;
 import pe.edu.unitru.bienestar.shared.dto.PersonCreateRequestDto;
@@ -33,7 +33,7 @@ public class PatientMapper {
         person.setDni(dto.dni());
         person.setBirthDate(dto.birthDate());
         person.setPhone(dto.phone());
-        person.setGender(Gender.valueOf(dto.gender()));
+        person.setGender(dto.gender());
         return person;
     }
 

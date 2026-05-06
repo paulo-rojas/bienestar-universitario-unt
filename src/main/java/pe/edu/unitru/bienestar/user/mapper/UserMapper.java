@@ -37,7 +37,7 @@ public class UserMapper {
         person.setDni(dto.dni());
         person.setBirthDate(dto.birthDate());
         person.setPhone(dto.phone());
-        person.setGender(Gender.valueOf(dto.gender()));
+        person.setGender(dto.gender());
         return person;
     }
 

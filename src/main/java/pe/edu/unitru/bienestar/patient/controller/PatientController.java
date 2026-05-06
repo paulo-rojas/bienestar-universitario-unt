@@ -10,10 +10,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import pe.edu.unitru.bienestar.patient.dto.PatientDto;
-import pe.edu.unitru.bienestar.address.dto.AddressCreateRequestDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientCreateRequestDto;
+import pe.edu.unitru.bienestar.patient.dto.in.PatientUpdateRequestDto;
+import pe.edu.unitru.bienestar.address.dto.in.AddressCreateRequestDto;
 import pe.edu.unitru.bienestar.address.service.AddressService;
-import pe.edu.unitru.bienestar.patient.dto.PatientCreateRequestDto;
 import pe.edu.unitru.bienestar.patient.service.PatientService;
 
 @RestController
@@ -39,23 +41,19 @@ public class PatientController {
     }
 
     @PostMapping
-    public ResponseEntity<PatientDto> createPatient(@RequestBody PatientCreateRequestDto dto) {
+    public ResponseEntity<PatientDto> createPatient(@Valid @RequestBody PatientCreateRequestDto dto) {
         return ResponseEntity.ok(patientService.createPatient(dto));
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PatientDto> updatePatient(@PathVariable Long id, @RequestBody PatientCreateRequestDto dto) {
+    public ResponseEntity<PatientDto> updatePatient(@PathVariable Long id, @Valid @RequestBody PatientUpdateRequestDto dto) {
         PatientDto updated = patientService.updatePatient(id, dto);
-        if (updated != null) {
-            return ResponseEntity.ok(updated);
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePatient(@PathVariable Long id) {
-        if (patientService.deletePatient(id)) {
+        if (patientService.deletePatientLogically(id)) {
             return ResponseEntity.noContent().build();
         } else {
             return ResponseEntity.notFound().build();
@@ -74,7 +72,7 @@ public class PatientController {
     }
 
     @PostMapping("/{id}/address")
-    public ResponseEntity<?> createAddressByPatientId(@PathVariable Long id, @RequestBody AddressCreateRequestDto dto) {
+    public ResponseEntity<?> createAddressByPatientId(@PathVariable Long id, @Valid @RequestBody AddressCreateRequestDto dto) {
         PatientDto patient = patientService.getPatientById(id);
         if (patient != null) {
             return ResponseEntity.ok(addressService.create(new AddressCreateRequestDto(
@@ -94,7 +92,7 @@ public class PatientController {
     }
     
     @PutMapping("/{id}/address")
-    public ResponseEntity<?> updateAddressByPatientId(@PathVariable Long id, @RequestBody AddressCreateRequestDto dto) {
+    public ResponseEntity<?> updateAddressByPatientId(@PathVariable Long id, @Valid @RequestBody AddressCreateRequestDto dto) {
         PatientDto patient = patientService.getPatientById(id);
         if (patient != null) {
             return ResponseEntity.ok(addressService.update(patient.personId(), dto));
